@@ -63,7 +63,7 @@
 
     // Generate unique ID
     function generateId() {
-        return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+        return Date.now().toString(36) + Math.random().toString(36).substring(2, 11);
     }
 
     // Parse ingredients from text (line-separated)
@@ -136,15 +136,18 @@
             return;
         }
 
-        recipeList.innerHTML = recipes.map(recipe => `
-            <div class="recipe-item" data-id="${recipe.id}">
-                <span class="recipe-item-name" onclick="viewRecipe('${recipe.id}')">${escapeHtml(recipe.name)}</span>
+        recipeList.innerHTML = recipes.map(recipe => {
+            const safeId = escapeHtml(recipe.id);
+            return `
+            <div class="recipe-item" data-id="${safeId}">
+                <span class="recipe-item-name" onclick="viewRecipe('${safeId}')">${escapeHtml(recipe.name)}</span>
                 <div class="recipe-item-actions">
-                    <button type="button" class="btn btn-secondary btn-small" onclick="editRecipe('${recipe.id}')">Edit</button>
-                    <button type="button" class="btn btn-danger btn-small" onclick="deleteRecipe('${recipe.id}')">Delete</button>
+                    <button type="button" class="btn btn-secondary btn-small" onclick="editRecipe('${safeId}')">Edit</button>
+                    <button type="button" class="btn btn-danger btn-small" onclick="deleteRecipe('${safeId}')">Delete</button>
                 </div>
             </div>
-        `).join('');
+        `;
+        }).join('');
     }
 
     // Escape HTML to prevent XSS

@@ -35,6 +35,7 @@ function setupEventListeners() {
     modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModal();
     });
+    recipeList.addEventListener('click', handleRecipeListClick);
 }
 
 // Get all recipes from localStorage
@@ -50,7 +51,7 @@ function saveRecipes(recipes) {
 
 // Generate unique ID
 function generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    return Date.now().toString(36) + Math.random().toString(36).slice(2);
 }
 
 // Parse ingredients from text (line-separated)
@@ -188,14 +189,30 @@ function renderRecipeList() {
 
     recipeList.innerHTML = recipes.map(recipe => `
         <div class="recipe-item" data-id="${recipe.id}">
-            <span class="recipe-item-name" onclick="viewRecipe('${recipe.id}')">${escapeHtml(recipe.name)}</span>
+            <span class="recipe-item-name">${escapeHtml(recipe.name)}</span>
             <div class="recipe-item-actions">
-                <button class="btn btn-small btn-view" onclick="viewRecipe('${recipe.id}')">View</button>
-                <button class="btn btn-small btn-edit" onclick="editRecipe('${recipe.id}')">Edit</button>
-                <button class="btn btn-small btn-delete" onclick="deleteRecipe('${recipe.id}')">Delete</button>
+                <button class="btn btn-small btn-view">View</button>
+                <button class="btn btn-small btn-edit">Edit</button>
+                <button class="btn btn-small btn-delete">Delete</button>
             </div>
         </div>
     `).join('');
+}
+
+// Handle clicks on recipe list using event delegation
+function handleRecipeListClick(e) {
+    const recipeItem = e.target.closest('.recipe-item');
+    if (!recipeItem) return;
+
+    const recipeId = recipeItem.dataset.id;
+
+    if (e.target.classList.contains('btn-view') || e.target.classList.contains('recipe-item-name')) {
+        viewRecipe(recipeId);
+    } else if (e.target.classList.contains('btn-edit')) {
+        editRecipe(recipeId);
+    } else if (e.target.classList.contains('btn-delete')) {
+        deleteRecipe(recipeId);
+    }
 }
 
 // Export recipes to JSON file

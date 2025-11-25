@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Recipe Manager</h1>
+        </header>
+
+        <main>
+            <!-- Add/Edit Recipe Form -->
+            <section id="recipe-form-section" class="card">
+                <h2 id="form-title">Add New Recipe</h2>
+                <form id="recipe-form">
+                    <input type="hidden" id="recipe-id">
+                    
+                    <div class="form-group">
+                        <label for="recipe-name">Recipe Name</label>
+                        <input type="text" id="recipe-name" placeholder="Enter recipe name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipe-ingredients">Ingredients (one per line)</label>
+                        <textarea id="recipe-ingredients" rows="6" placeholder="1 cup flour&#10;2 eggs&#10;1/2 cup milk" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="recipe-steps">Steps (numbered like "1." or plain lines)</label>
+                        <textarea id="recipe-steps" rows="8" placeholder="1. Preheat oven to 350°F&#10;2. Mix dry ingredients&#10;3. Add wet ingredients" required></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" id="save-btn">Save Recipe</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-btn" style="display: none;">Cancel</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Recipe List -->
+            <section id="recipe-list-section" class="card">
+                <div class="section-header">
+                    <h2>My Recipes</h2>
+                    <button type="button" class="btn btn-export" id="export-btn">Export JSON</button>
+                </div>
+                <div id="recipe-list"></div>
+            </section>
+
+            <!-- Recipe View Modal -->
+            <div id="recipe-modal" class="modal" style="display: none;">
+                <div class="modal-content card">
+                    <div class="modal-header">
+                        <h2 id="modal-recipe-name"></h2>
+                        <button type="button" class="close-btn" id="close-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Ingredients</h3>
+                        <ul id="modal-ingredients"></ul>
+                        <h3>Steps</h3>
+                        <ol id="modal-steps"></ol>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
